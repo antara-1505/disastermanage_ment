@@ -50,6 +50,6 @@ deploy-job:      # This job runs in the deploy stage.
 include:
   - component: gitlab.com/google-gitlab-components/artifact-registry/upload-artifact-registry@main
     inputs:
-      stage: deploy
+      stage: test
       source: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
       target: $asia-south2-docker.pkg.dev/$multi-ai-agent-system-463413/$disastermanagement/$Multi-AI agent system:$CI_COMMIT_SHORT_SHA
