@@ -52,4 +52,4 @@ include:
     inputs:
       stage: deploy
       source: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
-      target: $GOOGLE_ARTIFACT_REGISTRY_REPOSITORY_LOCATION-docker.pkg.dev/$multi-ai-agent-system-463413/$disastermanagement/$CI_PROJECT_NAME:$CI_COMMIT_SHORT_SHA
+      target: $asia-south2-docker.pkg.dev/$multi-ai-agent-system-463413/$disastermanagement/$Multi-AI agent system:$CI_COMMIT_SHORT_SHA
