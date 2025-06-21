@@ -15,7 +15,13 @@
 # https://docs.gitlab.com/development/cicd/templates/
 # This specific template is located at:
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
-
+include:
+  - component: gitlab.com/google-gitlab-components/artifact-registry/upload-artifact-registry@main
+    inputs:
+      stage: deploy
+      source: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+      target: $asia-south2-docker.pkg.dev/$multi-ai-agent-system-463413/$disastermanagement/$Multi-AI agent system:$CI_COMMIT_SHORT_SHA
+      
 stages:          # List of stages for jobs, and their order of execution
   - build
   - test
@@ -47,9 +53,3 @@ deploy-job:      # This job runs in the deploy stage.
   script:
     - echo "Deploying application..."
     - echo "Application successfully deployed."
-include:
-  - component: gitlab.com/google-gitlab-components/artifact-registry/upload-artifact-registry@main
-    inputs:
-      stage: deploy
-      source: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
-      target: $asia-south2-docker.pkg.dev/$multi-ai-agent-system-463413/$disastermanagement/$Multi-AI agent system:$CI_COMMIT_SHORT_SHA
