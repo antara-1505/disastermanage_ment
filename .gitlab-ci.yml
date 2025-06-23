@@ -15,12 +15,12 @@
 # https://docs.gitlab.com/development/cicd/templates/
 # This specific template is located at:
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
-include:
-  - component: gitlab.com/google-gitlab-components/artifact-registry/upload-artifact-registry@main
-    inputs:
-      stage: upload
-      source: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
-      target: asia-south2-docker.pkg.dev/multi-ai-agent-system-463413/my-docker-images-repo/multi-ai-agent-system:$CI_COMMIT_SHORT_SHA
+# include:
+#   - component: gitlab.com/google-gitlab-components/artifact-registry/upload-artifact-registry@main
+#     inputs:
+#       stage: deploy
+#       source: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+#       target: asia-south2-docker.pkg.dev/multi-ai-agent-system-463413/my-docker-images-repo/multi-ai-agent-system:$CI_COMMIT_SHORT_SHA
 
 stages:          # List of stages for jobs, and their order of execution
   - build
@@ -69,6 +69,12 @@ lint-test-job:   # This job also runs in the test stage.
 deploy-job:      # This job runs in the deploy stage.
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
   environment: production
+  image: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
   script:
     - echo "Deploying application..."
     - echo "Application successfully deployed."
+    - gcloud auth configure-docker asia-south2-docker.pkg.dev
+    - docker pull "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"
+    - docker tag "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA" asia-south2-docker.pkg.dev/multi-ai-agent-system-463413/my-docker-images-repo/multi-ai-agent-system:$CI_COMMIT_SHORT_SHA
+    - docker push asia-south2-docker.pkg.dev/multi-ai-agent-system-463413/my-docker-images-repo/multi-ai-agent-system:$CI_COMMIT_SHORT_SHA
+
