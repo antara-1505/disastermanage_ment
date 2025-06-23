@@ -18,7 +18,7 @@
 include:
   - component: gitlab.com/google-gitlab-components/artifact-registry/upload-artifact-registry@main
     inputs:
-      stage: deploy
+      stage: upload
       source: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
       target: asia-south2-docker.pkg.dev/multi-ai-agent-system-463413/my-docker-images-repo/multi-ai-agent-system:$CI_COMMIT_SHORT_SHA
 
@@ -27,6 +27,7 @@ stages:          # List of stages for jobs, and their order of execution
   - test
   - push
   - deploy
+  - upload
 
 docker-build-push-job:
   stage: push
