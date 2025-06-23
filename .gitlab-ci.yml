@@ -66,15 +66,13 @@ lint-test-job:   # This job also runs in the test stage.
     - sleep 10
     - echo "No lint issues found."
 
-deploy-job:      # This job runs in the deploy stage.
-  stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
-  environment: production
-  image: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
+deploy-job:
+  stage: deploy
+  image: gcr.io/google.com/cloudsdktool/cloud-sdk:slim-with-docker
   script:
     - echo "Deploying application..."
-    - echo "Application successfully deployed."
-    - gcloud auth configure-docker asia-south2-docker.pkg.dev
+    - gcloud auth configure-docker asia-south2-docker.pkg.dev --quiet
     - docker pull "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"
     - docker tag "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA" asia-south2-docker.pkg.dev/multi-ai-agent-system-463413/my-docker-images-repo/multi-ai-agent-system:$CI_COMMIT_SHORT_SHA
-    - docker push asia-south2-docker.pkg.dev/multi-ai-agent-system-463413/my-docker-images-repo/multi-ai-agent-system:$CI_COMMIT_SHORT_SHA
-
+    - docker push asia-south2-docker.pkg.dev/multi-ai-agent-system-463413/my-docker-images-repo/multi-ai-agent-system:$CI_COMMIT_SHORT_SHA"
+    - echo "Application successfully deployed."
