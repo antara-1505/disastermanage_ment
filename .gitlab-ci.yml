@@ -22,26 +22,25 @@
 #       source: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
 #       target: asia-south2-docker.pkg.dev/multi-ai-agent-system-463413/my-docker-images-repo/multi-ai-agent-system:$CI_COMMIT_SHORT_SHA
 
-stages:          # List of stages for jobs, and their order of execution
+stages:
   - build
   - upload
-  # - push
   - deploy
 
-variables: 
+variables:
   GITLAB_IMAGE: $CI_REGISTRY_IMAGE/main:$CI_COMMIT_SHORT_SHA
   AR_IMAGE: asia-south2-docker.pkg.dev/multi-ai-agent-system-463413/gcr.io/main:$CI_COMMIT_SHORT_SHA
 
-build: 
+build:
+  stage: build
   tags: [saas-linux-2xlarge-amd64]
   image: docker:20.10
-  stage: build
   services:
     - docker:20.10-dind
   before_script:
-    docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
   script:
-    - docker build -t "$GITLAB_IMAGE" . #     - echo  "Pushing image to GitLab Container Registry"
+    - docker build -t "$GITLAB_IMAGE" .
     - docker push "$GITLAB_IMAGE"
 
 include:
@@ -50,13 +49,14 @@ include:
       stage: upload
       source: $GITLAB_IMAGE
       target: $AR_IMAGE
-  - component:  gitlab.com/google-gitlab-components/cloud-run/deploy-cloud-run@main
+  - component: gitlab.com/google-gitlab-components/cloud-run/deploy-cloud-run@main
     inputs:
       stage: deploy
       project_id: "multi-ai-agent-system-463413"
       service: "disastermanagementcloudrun"
-      region: "aisa"
+      region: "asia-south2"
       image: $AR_IMAGE
+
 # docker-build-push-job:
 #   stage: push
 #   image: docker:20.10
