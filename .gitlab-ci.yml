@@ -54,7 +54,7 @@ include:
       stage: deploy
       project_id: "multi-ai-agent-system-463413"
       service: "disastermanagementcloudrun"
-      region: "us"
+      region: "aisa-south1"
       image: $AR_IMAGE
 
 # docker-build-push-job:
