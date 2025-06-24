@@ -50,8 +50,13 @@ include:
       stage: upload
       source: $GITLAB_IMAGE
       target: $AR_IMAGE
-      component:  gitlab.com/google-gitlab-components/cloud-run/deploy-cloud-run@main
-
+  - component:  gitlab.com/google-gitlab-components/cloud-run/deploy-cloud-run@main
+    inputs:
+      stage: deploy
+      project_id: "multi-ai-agent-system-463413"
+      service: "disastermanagementcloudrun"
+      region: "aisa"
+      image: $AR_IMAGE
 # docker-build-push-job:
 #   stage: push
 #   image: docker:20.10
