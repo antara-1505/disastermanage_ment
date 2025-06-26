@@ -19,7 +19,7 @@ steps:
       - '--image'
       - 'asia-docker.pkg.dev/$PROJECT_ID/my-docker-images-repo/disastermanagement:$COMMIT_SHA'
       - '--region'
-      - 'us-central1'
+      - 'us-east1'
       - '--platform'
       - 'managed'
       - '--min-instances'
