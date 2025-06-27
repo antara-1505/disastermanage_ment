@@ -29,7 +29,7 @@ stages:
 
 variables:
   GITLAB_IMAGE: $CI_REGISTRY_IMAGE/main:$CI_COMMIT_SHORT_SHA
-  AR_IMAGE: us-docker.pkg.dev/multi-ai-agent-system-463413/disastermanagement/main:$CI_COMMIT_SHORT_SHA
+  AR_IMAGE: asia-docker.pkg.dev/multi-ai-agent-system-463413/disastermanagement/main:$CI_COMMIT_SHORT_SHA
 
 build:
   stage: build
