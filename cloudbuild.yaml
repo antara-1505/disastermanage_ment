@@ -2,11 +2,11 @@ steps:
   # Build the container image
   - name: 'gcr.io/cloud-builders/docker'
     # dir: 'disastermanagement-repo'
-    args: ['build', '-t', 'asia-docker.pkg.dev/$PROJECT_ID/my-docker-images-repo/disastermanagement:$COMMIT_SHA', '.']
+    args: ['build', '-t', 'asia-docker.pkg.dev/$PROJECT_ID/disastermanagemant/disastermanagement:$COMMIT_SHA', '.']
 
   # Push the container image to Container Registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'asia-docker.pkg.dev/$PROJECT_ID/my-docker-images-repo/disastermanagement:$COMMIT_SHA']
+    args: ['push', 'asia-docker.pkg.dev/$PROJECT_ID/disastermangement/disastermanagement:$COMMIT_SHA']
 
   # Deploy container image to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -17,7 +17,7 @@ steps:
       - 'deploy'
       - 'disastermanagementcloudrun'
       - '--image'
-      - 'asia-docker.pkg.dev/$PROJECT_ID/my-docker-images-repo/disastermanagement:$COMMIT_SHA'
+      - 'asia-docker.pkg.dev/$PROJECT_ID/disastermangement/disastermanagement:$COMMIT_SHA'
       - '--region'
       - 'us-east1'
       - '--platform'
