@@ -1,12 +1,18 @@
-steps:
-  # Build the container image
-  - name: 'gcr.io/cloud-builders/docker'
-    # dir: 'disastermanagement-repo'
-    args: ['build', '-t', 'asia-docker.pkg.dev/$PROJECT_ID/disastermanagemant/main:$COMMIT_SHA', '.']
+# steps:
+#   # Build the container image
+#   - name: 'gcr.io/cloud-builders/docker'
+#     # dir: 'disastermanagement-repo'
+#     args: ['build', '-t', 'asia-docker.pkg.dev/$PROJECT_ID/disastermanagemant/main:$COMMIT_SHA', '.']
 
-  # Push the container image to Container Registry
+#   # Push the container image to Container Registry
+#   - name: 'gcr.io/cloud-builders/docker'
+#     args: ['push', 'asia-docker.pkg.dev/$PROJECT_ID/disastermangement/main:$COMMIT_SHA']
+steps:
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'asia-docker.pkg.dev/$PROJECT_ID/disastermangement/main:$COMMIT_SHA']
+    args: ['build', '-t', "$AR_IMAGE", '.']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', "$AR_IMAGE"]
+
 
   # Deploy container image to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -27,9 +33,10 @@ steps:
       - '--max-instances'
       - '1'
       - '--allow-unauthenticated'
-
 images:
-  - 'us-docker.pkg.dev/$PROJECT_ID/gcr/disastermanagement'
+  - "$AR_IMAGE"
+# images:
+#   - 'us-docker.pkg.dev/$PROJECT_ID/gcr/disastermanagement'
 
 options:
   logging: CLOUD_LOGGING_ONLY
